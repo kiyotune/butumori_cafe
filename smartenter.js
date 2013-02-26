@@ -1,3 +1,4 @@
+//https://github.com/yuichi1004/jquery.smartenter
 (function ($) {
 	var last_event = {event: null, which: null};
 	var enter_keycode = 13;
