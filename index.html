@@ -7,6 +7,7 @@
 <link rel="apple-touch-icon" href="shizue.jpg">
 <title>ぶつ森::Cafeのアレ</title>
 <script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="smartenter.js"></script>
 <script type="text/javascript">
 jQuery(function($){
 	$('table#item_table tbody *').remove();	//全て削除
@@ -19,12 +20,15 @@ jQuery(function($){
 			search();
 		}
 	});
-	$('#keyword').keyup(function(){
+	$('#keyword').keyup(function(e){
 		if(is_incremental){
 			search();
 		}
 	});
 	$('#keyword').focusout(function(){
+		search();
+	});
+	$('#keyword').smartenter(function(){
 		search();
 	});
 
