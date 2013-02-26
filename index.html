@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link type="text/css" rel="stylesheet" href="css/import.css" />
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="shizue.jpg">
+<title>ぶつ森::Cafeのアレ</title>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+jQuery(function($){
+	$('table#item_table tbody *').remove();	//全て削除
+
+	var is_incremental = $('#is_incremental').is(':checked');
+	
+	$('#is_incremental').click(function(){
+		is_incremental = $('#is_incremental').is(':checked');
+		if(is_incremental){
+			search();
+		}
+	});
+	$('#keyword').keyup(function(){
+		if(is_incremental){
+			search();
+		}
+	});
+	$('#keyword').focusout(function(){
+		search();
+	});
+
+	//検索
+	function search(){
+		var value = $('#keyword').val();
+		$.post(
+			"data.pl", 
+			{"keyword":value},
+			function(data, status) {
+				$('table#item_table tbody *').remove();	//全て削除
+				for(var i=0; i<data.length; i++){
+					var tr = data[i].join('</td><td>');
+					$('table#item_table tbody').append("<tr><td>"+tr+"</td></tr>");
+				}
+			},
+			"json"
+		);
+	};
+});
+</script>
+</head>
+
+<body>
+<p><input type="text" id="keyword" name="" value=""></p>
+<p><input type="checkbox" id="is_incremental">インクリメンタルサーチ有効</p>
+
+<table id="item_table">
+<thead>
+<tr><td>名前</td><td>よみ</td><td>コーヒー豆</td><td>ミルク</td><td>砂糖</td></tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</body>
+</html>
