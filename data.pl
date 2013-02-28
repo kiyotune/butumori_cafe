@@ -25,10 +25,10 @@ sub get_json
 	my $keyword = shift;
 	my $memd = Cache::Memcached::Fast->new({
 		servers => [ { address => 'localhost:11211' }],
-		namespace => 'butumori:',
+		namespace => 'butumori_cafe:',
 		utf8 => 1,
 	});
-	#$memd->flush_all();
+	#$memd->flush_all();	#キャッシュ削除 for Debug
 	if($keyword ne ''){
 		#print "key: ".$keyword."\n";
 		my $json = $memd->get($keyword);
