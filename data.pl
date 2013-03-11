@@ -29,6 +29,7 @@ sub get_json
 		utf8 => 1,
 	});
 	#$memd->flush_all();	#キャッシュ削除 for Debug
+	$keyword =~ s/\s//g;
 	if($keyword ne ''){
 		#print "key: ".$keyword."\n";
 		my $json = $memd->get($keyword);

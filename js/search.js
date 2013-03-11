@@ -1,24 +1,47 @@
 jQuery(function($){
 	$('table#item_table tbody *').remove();	//全て削除
 
-	var is_incremental = $('#is_incremental').is(':checked');
-	
-	$('#is_incremental').click(function(){
-		is_incremental = $('#is_incremental').is(':checked');
-		if(is_incremental){
-			search();
-		}
-	});
 	$('#keyword').keyup(function(e){
-		if(is_incremental){
-			search();
-		}
+		search();
 	});
 	$('#keyword').focusout(function(){
 		search();
 	});
 	$('#keyword').smartenter(function(){
 		search();
+	});
+	$('table#skeyboard tr td').click(function(){
+		var self = this;
+		var type = $(self).attr('type');
+		var str = $('#keyword').val();
+		var c = str.slice(-1);
+		if(type){
+			switch(type){
+				case 'del':			//末尾の一文字削除
+					str = str.slice(0, -1);	
+					break;
+				case 'daku':		//か゛=>が: 濁音化
+					str = str.slice(0, -1) + to_daku(c);
+					break;
+				case 'handaku':	//は゜=>ぱ: 半濁音化
+					str = str.slice(0, -1) + to_handaku(c);
+					break;
+				case 'you':			//きや=>きゃ: 拗音化
+					str = str.slice(0, -1) + to_you(c);
+					break;
+			}
+			$('#keyword').val(str);
+		}else{
+			$('#keyword').val($('#keyword').val() + $(self).text());
+		}
+		search();
+	});
+	$('#search').click(function(){
+		search();
+	});
+	$('#clear').click(function(){
+		$('#keyword').val('');
+		$('table#item_table tbody *').remove();
 	});
 
 	//検索
@@ -36,6 +59,31 @@ jQuery(function($){
 			},
 			"json"
 		);
+	};
+	//濁音化
+	function to_daku(c){
+		var dict = {
+			"か":"が", "き":"ぎ", "く":"ぐ", "け":"げ", "こ":"ご", 
+			"さ":"ざ", "し":"じ", "す":"ず", "せ":"ぜ", "そ":"ぞ", 
+			"た":"だ", "ち":"ぢ", "つ":"づ", "て":"で", "と":"ど", 
+			"は":"ば", "ひ":"び", "ふ":"ぶ", "へ":"べ", "ほ":"ぼ"
+		};
+		return(dict[c] ? dict[c] : c);
+	};
+	//半濁音化
+	function to_handaku(c){
+		var dict = {
+			"は":"ぱ", "ひ":"ぴ", "ふ":"ぷ", "へ":"ぺ", "ほ":"ぽ"
+		};
+		return(dict[c] ? dict[c] : c);
+	};
+	//拗音化
+	function to_you(c){
+		var dict = {
+			"あ":"ぁ", "い":"ぃ", "う":"ぅ", "え":"ぇ", "お":"ぉ",
+			"や":"ゃ", "ゆ":"ゅ", "よ":"ょ", "つ":"っ"
+		};
+		return(dict[c] ? dict[c] : c);
 	};
 });
 

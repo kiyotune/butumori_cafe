@@ -63,7 +63,8 @@ p {
 	margin: 15px 0 0 22px;
 }
 		
-input {
+/*input[type='text'] { K.Tsunezumi */
+input[type='text'] {
 	border: inset #666 1px;
 	padding: .2em;
 }
@@ -87,4 +88,23 @@ table {
 	}
 	
 	table tbody {
+	}
+
+	/* K.Tsunezumi */
+	table#skeyboard td.ckey {
+		color: #ffffff;
+		background-color: #9999cc;
+		border-style: solid;
+		border-color: #ccccff #666699 #666699 #ccccff;
+		border-width: 1px;
+	}
+
+	table#skeyboard td.ckey:hover {
+		background-color: #666699;
+		border-color: #9999cc #333366 #333366 #9999cc;
+		cursor: pointer;
+	}
+
+	table#skeyboard td.ckey:active {
+		border-style: inset;
 	}
