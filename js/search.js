@@ -17,8 +17,9 @@ jQuery(function($){
 		var c = str.slice(-1);
 		if(type){
 			switch(type){
-				case 'del':			//末尾の一文字削除
-					str = str.slice(0, -1);	
+				case 'clear':		//クリア
+					str = '';
+					$('table#item_table tbody *').remove();
 					break;
 				case 'daku':		//か゛=>が: 濁音化
 					str = str.slice(0, -1) + to_daku(c);
@@ -39,19 +40,20 @@ jQuery(function($){
 	$('#search').click(function(){
 		search();
 	});
-	$('#clear').click(function(){
-		$('#keyword').val('');
-		$('table#item_table tbody *').remove();
+	$('#del').click(function(){
+		var str = $('#keyword').val();
+		$('#keyword').val(str.slice(0, -1));
+		search();
 	});
 
 	//検索
 	function search(){
-		var value = $('#keyword').val();
+		var str = $('#keyword').val();
+		$('table#item_table tbody *').remove();	//全て削除
 		$.post(
 			"/butumori/cafe/data.pl", 
-			{"keyword":value},
+			{"keyword":str},
 			function(data, status) {
-				$('table#item_table tbody *').remove();	//全て削除
 				for(var i=0; i<data.length; i++){
 					var tr = data[i].join('</td><td>');
 					$('table#item_table tbody').append("<tr><td>"+tr+"</td></tr>");
