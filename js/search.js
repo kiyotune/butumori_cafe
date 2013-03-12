@@ -8,7 +8,7 @@ jQuery(function($){
 		search();
 	});
 	$('#keyword').smartenter(function(){
-		search();
+		search(true);
 	});
 	$('table#skeyboard tr td').click(function(){
 		var self = this;
@@ -38,7 +38,7 @@ jQuery(function($){
 		search();
 	});
 	$('#search').click(function(){
-		search();
+		search(true);
 	});
 	$('#del').click(function(){
 		var str = $('#keyword').val();
@@ -47,7 +47,9 @@ jQuery(function($){
 	});
 
 	//検索
-	function search(){
+	function search(go_search = false){
+		if(!go_search && !$('#finc').is(':checked')) return;
+
 		var str = $('#keyword').val();
 		$('table#item_table tbody *').remove();	//全て削除
 		$.post(
