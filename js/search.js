@@ -47,7 +47,7 @@ jQuery(function($){
 	});
 
 	//検索
-	function search(go_search = false){
+	function search(go_search){
 		if(!go_search && !$('#finc').is(':checked')) return;
 
 		var str = $('#keyword').val();
